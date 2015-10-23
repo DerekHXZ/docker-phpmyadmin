@@ -8,16 +8,14 @@ ENV MYSQL_USERNAME      mysql
 ENV MYSQL_PASSWORD      password
 
 RUN apt-get update
-RUN apt-get install -y mysql-client
+RUN apt-get install -y mysql-client git
 
 ENV PHPMYADMIN_VERSION 4.5.0.2
 ENV MAX_UPLOAD "50M"
 
-RUN wget https://files.phpmyadmin.net/phpMyAdmin/${PHPMYADMIN_VERSION}/phpMyAdmin-${PHPMYADMIN_VERSION}-english.tar.bz2 \
- && tar -xvjf /phpMyAdmin-${PHPMYADMIN_VERSION}-english.tar.bz2 -C / \
- && rm /phpMyAdmin-${PHPMYADMIN_VERSION}-english.tar.bz2 \
+RUN git clone git@github.com:phpmyadmin/phpmyadmin.git \
  && rm -r /www \
- && mv /phpMyAdmin-${PHPMYADMIN_VERSION}-english /www
+ && mv phpmyadmin /www
 
 ADD sources/config.inc.php /
 ADD sources/create_user.sql /
